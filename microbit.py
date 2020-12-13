@@ -1,59 +1,64 @@
 # text from https://microbit-micropython.readthedocs.io/en/latest/microbit_micropython_api.html
 
-def sleep(ms):
+from collections.abc import Iterable
+from typing import Union, Literal
+
+digitalValue = Union[Literal[1], Literal[0]]
+
+def sleep(ms: int):
     """sleep for the given number of milliseconds."""
 
-def running_time():
+def running_time() -> int:
     """returns the number of milliseconds since the micro:bit was last switched on."""
 
-def panic(error_code):
+def panic(error_code: int):
    """makes the micro:bit enter panic mode (this usually happens when the DAL runs out of memory, and causes a sad face to be drawn on the display). The error # code can be any arbitrary integer value."""
 
 def reset():
     """resets the micro:bit."""
 
 class _Button:
-    def is_pressed():
+    def is_pressed(self) -> bool:
         """returns True or False to indicate if the button is pressed at the time of the method call."""
-    def was_pressed():
+    def was_pressed(self) -> bool:
         """returns True or False to indicate if the button was pressed since the device started or the last time this method was called."""
-    def get_presses():
+    def get_presses(self) -> int:
         """returns the running total of button presses, and resets this counter to zero"""
 
 button_a = _Button()
 button_b = _Button()
 
 class _Display:
-    def get_pixel(self, x, y):
-        """ARTASASD the brightness of the pixel (x,y). Brightness can be from 0 (the pixel is off) to 9 (the pixel is at maximum brightness)."""
-    def set_pixel(x, y, val):
+    def get_pixel(self, x: int, y: int) -> int:
+        """Get the brightness the brightness of the pixel (x,y). Brightness can be from 0 (the pixel is off) to 9 (the pixel is at maximum brightness)."""
+    def set_pixel(self, x: int, y: int, val: int):
         """sets the brightness of the pixel (x,y) to val (between 0 [off] and 9 [max brightness], inclusive)."""
-    def clear():
+    def clear(self):
         """clears the display."""
-    def show(image, delay=0, wait=True, loop=False, clear=False):
+    def show(self, image, delay: int = 0, wait: bool = True, loop: bool = False, clear: bool = False):
         """shows the image."""
-    def show(iterable, delay=400, wait=True, loop=False, clear=False):
+    def show(self, iterable: Iterable, delay: int = 400, wait: bool = True, loop: bool = False, clear: bool = False):
         """shows each image or letter in the iterable, with delay ms. in between each."""
-    def scroll(string, delay=400):
+    def scroll(self, string: str, delay: int = 400):
         """scrolls a string across the display (more exciting than display.show for written messages)."""
 
 display = _Display()
 
 class _MicroBitPin:
-    def write_digital(value):
+    def write_digital(self, value: Union[bool, digitalValue]):
         """value can be 0, 1, False, True"""
-    def read_digital():
+    def read_digital(self) -> digitalValue:
         """returns either 1 or 0"""
-    def write_analog(value):
+    def write_analog(self, value: int):
         """value is between 0 and 1023"""
-    def read_analog():
+    def read_analog(self) -> int:
         """returns an integer between 0 and 1023"""
-    def set_analog_period(int):
+    def set_analog_period(self, int):
         """sets the period of the PWM output of the pin in milliseconds (see https://en.wikipedia.org/wiki/Pulse-width_modulation)"""
-    def set_analog_period_microseconds(int):
+    def set_analog_period_microseconds(self, int):
         """sets the period of the PWM output of the pin in microseconds (see https://en.wikipedia.org/wiki/Pulse-width_modulation)"""
-    def is_touched():
-        pass
+    def is_touched(self) -> bool:
+        """"""
 
 pin1 = _MicroBitPin()
 pin2 = _MicroBitPin()
